@@ -1,4 +1,11 @@
+# base image
 FROM openjre:8
-ADD https://rajshared.s3.amazonaws.com/spring-petclinic.jar
+# variables
+ENV apppath="/spring-petclinic.jar"
+ARG downloadpath="https://rajshared.s3.amazonaws.com/spring-petclinic.jar"
+# download the jar file
+ADD ${downloadpath}/${apppath}
+# open 8080 port
 EXPOSE 8080
-CMD ["java", "-jar", "/spring-petclinic.jar"]
+# commend to run container
+CMD ["java", "-jar", ${apppath}]
