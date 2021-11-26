@@ -8,4 +8,4 @@ ADD ${downloadpath} ${apppath}
 # open 8080 port
 EXPOSE 8080
 # commend to run container
-CMD ["java", "-jar", ${apppath}]
+CMD java -jar ${apppath}
