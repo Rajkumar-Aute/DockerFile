@@ -1,3 +1,4 @@
+# example of multi docker build
 # using mavin image to build game of life package
 FROM maven:3-jdk-8 AS mvn
 # clone the code and build the mavin package
