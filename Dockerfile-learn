@@ -1,0 +1,64 @@
+# To build the image $docker image build -t image-tag ./Dockerfile
+
+#base image
+FROM ubuntu 
+
+# maintainer info 
+MAINTAINER "Rajkumar Aute, rajkumaraute@gmail.com"
+
+# meta data of the built image one or more Labels can be attached.
+LABEL Name="Rajkumar Aute"
+LABEL Email="rajkumaraute@gmail.com"
+
+# To set values at image level (Build time),
+# only parameter which is accepted in the dockerfile as first step same as FROM
+# ARG variables can be called using $ARG-KEY
+ARG key=value
+
+# Environment variable
+# to check env from container $ docker exec -it container-name env
+ENV key=value
+
+# Copy files with file ownership  from build machine to image layer.
+COPY [--chown=<user>:<group>] [<source> <dest>]
+
+# Add files from downloadable server / website (Same as COPY)
+ADD [--chown=<user>:<group>] [--checksum=<checksum-number> ][<source> <dest>]
+ADD url /path
+
+
+# Commands will be run at the time of image build and added the changes to image as a layer
+RUN apt update # Shell type
+RUN ["apt","update"] # exec type
+
+# we can all stop the particular process
+STOPSIGNAL signal
+
+# Default working directory or default root path.
+# Shifting the default directory inside container. or current working directory.
+WORKDIR /the/workdir/path
+
+# user to run the application in side container, for security reason.
+USER user-name:group-name
+
+
+# Host disk will be attached to the container. 
+VOLUME [ "/data" ]
+
+# to update default shell like "/bin/sh" or "/bin/bash"
+SHELL [ "executable" ]
+
+
+# Exposing port inside container application port number. (TCP/UDP)
+# port forwarding  $docker run -d --name container-name -p8080:80 image-name ( -P if caps P will select host port automatically)
+EXPOSE port
+
+# command to be executed after container creation or at run of the container.
+# CMD can override at run time
+# $docker container run -d --name container-name -p8080:80 image "command it will append the ENTRYPOINT and replace CMD"
+ENTRYPOINT [ "executable" ] # fixed command to at the time of container run
+CMD [ "executable" ] # replaceable command to at the time of container run
+
+# Docker to check the container/application working 
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "executable" ]
+
